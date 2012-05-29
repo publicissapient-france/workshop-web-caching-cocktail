@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- -->
-<!-- Copyright 2008-2012 Xebia and the original author or authors. -->
+<!-- Copyright 2008-2010 Xebia and the original author or authors. -->
 <!-- -->
 <!-- Licensed under the Apache License, Version 2.0 (the "License"); -->
 <!-- you may not use this file except in compliance with the License. -->
@@ -14,8 +14,16 @@
 <!-- See the License for the specific language governing permissions and -->
 <!-- limitations under the License. -->
 <!-- -->
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="
-       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+<configuration scan="true" scanPeriod="30 seconds" debug="false">
 
-</beans>
+   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+      <encoder>
+         <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg %ex{0}%n</pattern>
+      </encoder>
+   </appender>
+
+
+   <root level="warn">
+      <appender-ref ref="STDOUT" />
+   </root>
+</configuration>
