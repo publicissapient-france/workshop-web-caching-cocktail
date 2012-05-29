@@ -117,7 +117,7 @@
             <!-- Add expires filter -->
             <groupId>fr.xebia.web</groupId>
             <artifactId>xebia-servlet-extras</artifactId>
-            <version>1.0.6</version>
+            <version>1.0.7</version>
             <scope>runtime</scope>
         </dependency>
 
