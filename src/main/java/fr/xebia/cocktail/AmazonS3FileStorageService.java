@@ -58,7 +58,7 @@ public class AmazonS3FileStorageService {
     private final Random random = new Random();
 
     @Inject
-    public AmazonS3FileStorageService(@Value("${aws_access_key}") String awsAccessKey, @Value("${aws_secret_key}") String awsSecretKey) {
+    public AmazonS3FileStorageService(@Value("${AWS_ACCESS_KEY_ID}") String awsAccessKey, @Value("${AWS_SECRET_KEY}") String awsSecretKey) {
 
         amazonS3 = new AmazonS3Client(new BasicAWSCredentials(awsAccessKey, awsSecretKey));
 
