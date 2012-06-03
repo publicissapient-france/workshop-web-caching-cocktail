@@ -15,55 +15,41 @@
 <!-- limitations under the License. -->
 <!-- -->
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
     <display-name>Cocktail App</display-name>
 
-   <listener>
-      <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-   </listener>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
 
-   <!-- Handles all requests into the application -->
-   <servlet>
-      <servlet-name>spring-mvc</servlet-name>
-      <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-      <load-on-startup>1</load-on-startup>
-   </servlet>
-   <servlet-mapping>
-      <servlet-name>spring-mvc</servlet-name>
-      <url-pattern>/</url-pattern>
-   </servlet-mapping>
+    <!-- Handles all requests into the application -->
+    <servlet>
+        <servlet-name>spring-mvc</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>spring-mvc</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
     <filter>
-        <filter-name>ExpiresFilter</filter-name>
-        <filter-class>fr.xebia.servlet.filter.ExpiresFilter</filter-class>
-        <init-param>
-            <param-name>ExpiresByType image</param-name>
-            <param-value>access plus 1 day</param-value>
-        </init-param>
-        <init-param>
-            <param-name>ExpiresByType text/css</param-name>
-            <param-value>access plus 1 day</param-value>
-        </init-param>
-        <init-param>
-            <param-name>ExpiresByType text/javascript</param-name>
-            <param-value>access plus 1 day</param-value>
-        </init-param>
+        <filter-name>HiddenHttpMethodFilter</filter-name>
+        <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
     </filter>
     <filter-mapping>
-        <filter-name>ExpiresFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <filter-name>HiddenHttpMethodFilter</filter-name>
+        <servlet-name>spring-mvc</servlet-name>
         <dispatcher>REQUEST</dispatcher>
     </filter-mapping>
-   <filter>
-      <filter-name>HiddenHttpMethodFilter</filter-name>
-      <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
-   </filter>
-   <filter-mapping>
-      <filter-name>HiddenHttpMethodFilter</filter-name>
-      <servlet-name>spring-mvc</servlet-name>
-   </filter-mapping>
 
-   <!-- Disables Servlet Container welcome file handling. Needed for compatibility with Servlet 3.0 and Tomcat 7.0 -->
-   <welcome-file-list>
-      <welcome-file></welcome-file>
-   </welcome-file-list>
+    <!--
+       TODO DECLARE EXPIRES_FILTER ON
+       <url-pattern>/*</url-pattern>
+       <dispatcher>REQUEST</dispatcher>
+    -->
+
+    <!-- Disables Servlet Container welcome file handling. Needed for compatibility with Servlet 3.0 and Tomcat 7.0 -->
+    <welcome-file-list>
+        <welcome-file></welcome-file>
+    </welcome-file-list>
 </web-app>
