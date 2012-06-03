@@ -35,6 +35,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
@@ -196,6 +197,19 @@ public class CocktailManager {
 
         Collection<Cocktail> cocktails = cocktailRepository.find(ingredient, name);
         return new ModelAndView("cocktail/view-all", "cocktails", cocktails);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/rss")
+    public ModelAndView rss(HttpServletResponse response) {
+        Iterable<Cocktail> cocktails = cocktailRepository.find(null, null);
+
+        ModelAndView modelAndView = new ModelAndView(new CocktailRssView(cocktails));
+
+        // Cache for 5 Minutes
+        long timeToLiveInSeconds = 5 * 60;
+        response.setDateHeader("Expires", System.currentTimeMillis() + timeToLiveInSeconds * 1000L);
+        response.setHeader("Cache-Control", "public, max-age=" + timeToLiveInSeconds);
+        return modelAndView;
     }
 
     @ManagedMetric(metricType = MetricType.COUNTER)
