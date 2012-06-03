@@ -196,7 +196,7 @@
                 <artifactId>bees-maven-plugin</artifactId>
                 <version>1.0-SNAPSHOT</version>
                 <configuration>
-                    <appid>atelier-xebia/cocktail</appid>
+                    <appid>atelier-xebia/cocktail-web-caching</appid>
                 </configuration>
             </plugin>
             <plugin>
@@ -243,4 +243,14 @@
             <email>cleclerc@xebia.fr</email>
         </developer>
     </developers>
+    <distributionManagement>
+        <repository>
+            <id>atelier-xebia-release</id>
+            <url>https://repository-atelier-xebia.forge.cloudbees.com/release/</url>
+        </repository>
+        <snapshotRepository>
+            <id>atelier-xebia-snapshot</id>
+            <url>https://repository-atelier-xebia.forge.cloudbees.com/snapshot/</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
