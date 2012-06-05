@@ -15,7 +15,19 @@
  */
 package fr.xebia.cocktail;
 
-import com.amazonaws.services.s3.model.ObjectMetadata;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import com.google.common.base.Predicate;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Collections2;
@@ -27,21 +39,16 @@ import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.jmx.support.MetricType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import static org.springframework.util.StringUtils.hasLength;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Collection;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Main controller of the application.
@@ -58,7 +65,7 @@ public class CocktailManager {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Inject
-    private AmazonS3FileStorageService fileStorageService;
+    private AmazonS3RestService fileStorageService;
 
     private final AtomicInteger addedCommentCount = new AtomicInteger();
 
@@ -132,7 +139,7 @@ public class CocktailManager {
         Collection<Ingredient> ingredients = Collections2.filter(cocktail.getIngredients(), new Predicate<Ingredient>() {
             @Override
             public boolean apply(Ingredient ingredient) {
-                return StringUtils.hasLength(ingredient.getName()) && StringUtils.hasLength(ingredient.getQuantity());
+                return hasLength(ingredient.getName()) && hasLength(ingredient.getQuantity());
             }
         });
 
@@ -162,12 +169,20 @@ public class CocktailManager {
                     InputStream photoInputStream = photo.getInputStream();
                     long photoSize = photo.getSize();
 
-                    ObjectMetadata objectMetadata = new ObjectMetadata();
+                    Map metadata = new TreeMap();
+                    metadata.put("Content-Length",Arrays.asList(new String[] { ""+photoSize}));
+                    metadata.put("Content-Type", Arrays.asList(new String[] { contentType}));
+                    metadata.put("Cache-Control", Arrays.asList(new String[] {"public, max-age=" + TimeUnit.SECONDS.convert(365, TimeUnit.DAYS)}));
+                    
+                    
+
+                /*    ObjectMetadata objectMetadata = new ObjectMetadata();
                     objectMetadata.setContentLength(photoSize);
                     objectMetadata.setContentType(contentType);
-                    objectMetadata.setCacheControl("public, max-age=" + TimeUnit.SECONDS.convert(365, TimeUnit.DAYS));
-                    String photoUrl = fileStorageService.storeFile(photoInputStream, objectMetadata);
+                    objectMetadata.setCacheControl("public, max-age=" + TimeUnit.SECONDS.convert(365, TimeUnit.DAYS));*/
+                    String photoUrl = fileStorageService.storeFile(photo.getBytes(), metadata);
 
+                    
                     Cocktail cocktail = cocktailRepository.get(id);
                     logger.info("Saved {}", photoUrl);
                     cocktail.setPhotoUrl(photoUrl);

@@ -15,38 +15,28 @@
  */
 package fr.xebia.cocktail;
 
-import java.io.InputStream;
-import java.util.Map;
-import java.util.Random;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Inject;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
+/*
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.google.common.base.Splitter;
-import com.google.common.base.Strings;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Maps;
+import com.amazonaws.services.s3.model.ObjectMetadata;*/
 
 /**
  * Amazon AWS S3 storage for images.
  * 
  * @author <a href="mailto:cleclerc@xebia.fr">Cyrille Le Clerc</a>
  */
-@Service
 public class AmazonS3FileStorageService {
+/*
+
+@Service
+
 
     private Map<String, String> contentTypeByFileExtension;
 
     private Map<String, String> defaultFileExtensionByContentType;
 
+    
     private AmazonS3 amazonS3;
 
     @Value("${aws_s3_bucket_base_url}")
@@ -89,5 +79,5 @@ public class AmazonS3FileStorageService {
         amazonS3.putObject(amazonS3BucketName, fileName, in, objectMetadata);
 
         return amazonS3BucketBaseUrl + fileName;
-    }
+    }*/
 }
