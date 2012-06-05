@@ -17,8 +17,8 @@
 <!-- CLOUDBEES CONFIGURATION PARAMETERS -->
 <!-- http://wiki.cloudbees.com/bin/view/RUN/Configuration+Parameters -->
 <!--  -->
-<!-- bees config:update -a atelier-xebia/cocktail-manager cloudbees-config.xml -->
-<!-- bees config:list -a atelier-xebia/cocktail-manager -->
+<!-- bees config:update -a atelier-xebia/cocktail-web-caching cloudbees-config.xml -->
+<!-- bees config:list -a atelier-xebia/cocktail-web-caching -->
 <config>
 
    <param name="spring.profiles.active" value="prod" />
@@ -26,8 +26,8 @@
    <!-- AMAZON -->
    <!-- see http://aws.amazon.com/security-credentials -->
    <!-- xebia-cocktail amazon user -->
-   <param name="aws_access_key" value="#AWS_ACCESS_KEY#" />
-   <param name="aws_secret_key" value="#AWS_SECRET_KEY#" />
+   <param name="AWS_ACCESS_KEY_ID" value="#AWS_ACCESS_KEY#" />
+   <param name="AWS_SECRET_KEY" value="#AWS_SECRET_KEY#" />
    <param name="aws_s3_bucket_base_url" value="http://xebia-cocktail.s3-website-us-east-1.amazonaws.com/" />
    <param name="aws_s3_bucket_name" value="xebia-cocktail" />
    
