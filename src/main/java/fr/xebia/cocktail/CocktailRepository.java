@@ -103,7 +103,7 @@ public class CocktailRepository {
     public void insert(Cocktail cocktail) {
         Preconditions.checkArgument(cocktail.getId() == null, "Given id must be null in %s", cocktail);
 
-        cocktail.setId(RandomStringUtils.randomAlphanumeric(5));
+        cocktail.setId(Integer.toString(cocktail.getName().hashCode()));
 
         cocktails.put(cocktail.getId(), cocktail);
     }
